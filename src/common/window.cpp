@@ -21,8 +21,15 @@ Window::Window(const int width, const int height, const std::string windowName)
   : window_{ nullptr, glfwDestroyWindow }, processInputCallback_{ processInputDefault }
 {
     init();
-    createGLFWindow(width, height, windowName);
-    initializeGlad();
+    try
+    {
+        createGLFWindow(width, height, windowName);
+        initializeGlad();
+    }
+    catch (const std::exception &e)
+    {
+        std::cout << "Exception with message: '" << e.what() << "'\n";
+    }
     registerFrameBufferCallback();
 }
 
