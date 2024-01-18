@@ -3,7 +3,7 @@ project(simple_window)
 add_executable(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE
-    ../common/window.cpp
+    ${CMAKE_SOURCE_DIR}/src/common/window.cpp
     main.cpp
 )
 
