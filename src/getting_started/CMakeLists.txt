@@ -1,1 +1,1 @@
-add_subdirectory(simple_window)
+add_subdirectory(hello_window)
