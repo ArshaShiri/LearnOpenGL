@@ -8,6 +8,7 @@
 #include "common/buffer.hpp"
 #include "common/program.hpp"
 #include "common/shader.hpp"
+#include "common/vertex_array.hpp"
 #include "common/window.hpp"
 
 namespace
@@ -54,24 +55,22 @@ int main()
     vertexShader.deleteShader();
     fragmentShader.deleteShader();
 
+    // TODO: For now leave it like this until design of a better wrapper for vertices.
     // set up vertex data (and buffer(s)) and configure vertex attributes
-    // ------------------------------------------------------------------
     float vertices[] = {
         -0.5f, -0.5f, 0.0f, // left
         0.5f,  -0.5f, 0.0f, // right
         0.0f,  0.5f,  0.0f // top
     };
 
-    auto vbo = Buffer{};
-
-    unsigned int VAO;
-    glGenVertexArrays(1, &VAO);
+    auto vertexBufferObject = Buffer{};
+    auto vertexArrayObject = VertexArray{};
 
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    glBindVertexArray(VAO);
+    vertexArrayObject.bind();
 
     // 0. copy our vertices array in a buffer for OpenGL to use
-    vbo.bindBuffer();
+    vertexBufferObject.bindBuffer();
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     // 1. then set the vertex attributes pointers
@@ -102,7 +101,7 @@ int main()
 
         // draw our first triangle
         shaderProgram.useProgram();
-        glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but
+        vertexArrayObject.bind(); // seeing as we only have a single VAO there's no need to bind it every time, but
         // we'll do so to keep things a bit more organized
         glDrawArrays(GL_TRIANGLES, 0, 3);
         // glBindVertexArray(0); // no need to unbind it every time

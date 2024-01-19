@@ -9,7 +9,7 @@ class Buffer
 {
   public:
     /**
-     * @brief Construct a new Buffer object and store the id
+     * @brief Constructs a new Buffer object and store the id
      *
      */
     Buffer();
@@ -22,7 +22,7 @@ class Buffer
     const unsigned int getId() const;
 
     /**
-     * @brief Bind to target (Only supports GL_ARRAY_BUFFER)
+     * @brief Bindss to target (Only supports GL_ARRAY_BUFFER)
      *
      */
     void bindBuffer();
