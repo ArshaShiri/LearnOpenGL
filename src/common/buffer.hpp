@@ -27,7 +27,13 @@ class Buffer
      * @brief Binds to target //!(Only supports GL_ARRAY_BUFFER)
      *
      */
-    void bindBuffer();
+    void bind();
+
+    /**
+     * @brief Unbind buffer
+     *
+     */
+    void unbind();
 
     /**
      * @brief Creates a and Initializes buffer data object

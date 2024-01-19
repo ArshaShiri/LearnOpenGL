@@ -10,7 +10,8 @@ Buffer::Buffer()
 
 const unsigned int Buffer::getId() const { return bufferId_; }
 
-void Buffer::bindBuffer() { glBindBuffer(GL_ARRAY_BUFFER, bufferId_); }
+void Buffer::bind() { glBindBuffer(GL_ARRAY_BUFFER, bufferId_); }
+void Buffer::unbind() { glBindBuffer(GL_ARRAY_BUFFER, 0); }
 
 void Buffer::createAndInitializeBufferData(const std::vector<float> &data)
 {

@@ -71,16 +71,17 @@ int main()
     vertexArrayObject.bind();
 
     // 0. copy our vertices array in a buffer for OpenGL to use
-    vertexBufferObject.bindBuffer();
+    vertexBufferObject.bind();
     vertexBufferObject.createAndInitializeBufferData(vertices);
 
+    // TODO: To which class these should go?
     // 1. then set the vertex attributes pointers
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound
     // vertex buffer object so afterwards we can safely unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    vertexBufferObject.unbind();
 
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely
     // happens.
@@ -102,8 +103,11 @@ int main()
 
         // draw our first triangle
         shaderProgram.useProgram();
-        vertexArrayObject.bind(); // seeing as we only have a single VAO there's no need to bind it every time, but
+
+        // seeing as we only have a single VAO there's no need to bind it every time, but
         // we'll do so to keep things a bit more organized
+        vertexArrayObject.bind();
+
         glDrawArrays(GL_TRIANGLES, 0, 3);
         // glBindVertexArray(0); // no need to unbind it every time
 
