@@ -42,6 +42,10 @@ void Window::registerInputProcessingCallback(const std::function<void(GLFWwindow
 
 void Window::processInput() { processInputCallback_(window_.get()); }
 
+bool Window::shouldClose() const { return glfwWindowShouldClose(getGLFWindowPointer()); }
+
+void Window::swapBuffers() { glfwSwapBuffers(getGLFWindowPointer()); }
+
 Window::~Window() { glfwTerminate(); }
 
 void Window::init()

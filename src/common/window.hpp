@@ -8,6 +8,10 @@
 #include <GLFW/glfw3.h>
 
 
+/**
+ * @brief A window class to wrap glfw window.
+ *
+ */
 class Window
 {
   public:
@@ -18,6 +22,8 @@ class Window
     GLFWwindow *getGLFWindowPointer() const;
     void registerInputProcessingCallback(const std::function<void(GLFWwindow *window)> &callback);
     void processInput();
+    bool shouldClose() const;
+    void swapBuffers();
 
     ~Window();
 

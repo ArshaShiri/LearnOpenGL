@@ -42,8 +42,6 @@ int main()
     // TODO: This call silently initializes glad stuff which is not related to window.
     auto window = Window(windowWidth, windowHeight);
 
-    auto *glfwWindow = window.getGLFWindowPointer();
-
     const auto vertexShader = Shader(ShaderType::Vertex, vertexShaderSource);
     const auto fragmentShader = Shader(ShaderType::Fragment, fragmentShaderSource);
 
@@ -94,7 +92,7 @@ int main()
 
 
     // render loop
-    while (!glfwWindowShouldClose(glfwWindow))
+    while (!window.shouldClose())
     {
         window.processInput();
 
@@ -112,7 +110,7 @@ int main()
         // glBindVertexArray(0); // no need to unbind it every time
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        glfwSwapBuffers(glfwWindow);
+        window.swapBuffers();
         glfwPollEvents();
     }
 

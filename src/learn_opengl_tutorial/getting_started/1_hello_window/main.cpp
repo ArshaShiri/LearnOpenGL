@@ -15,7 +15,7 @@ int main()
     auto *glfwWindow = window.getGLFWindowPointer();
 
     // render loop
-    while (!glfwWindowShouldClose(glfwWindow))
+    while (!window.shouldClose())
     {
         window.processInput();
 
@@ -23,7 +23,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        glfwSwapBuffers(glfwWindow);
+        window.swapBuffers();
         glfwPollEvents();
     }
 
