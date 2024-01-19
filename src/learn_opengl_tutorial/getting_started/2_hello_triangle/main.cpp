@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include <glad/glad.h>
 // Do not change the order of include files here...
@@ -57,7 +58,7 @@ int main()
 
     // TODO: For now leave it like this until design of a better wrapper for vertices.
     // set up vertex data (and buffer(s)) and configure vertex attributes
-    float vertices[] = {
+    std::vector<float> vertices{
         -0.5f, -0.5f, 0.0f, // left
         0.5f,  -0.5f, 0.0f, // right
         0.0f,  0.5f,  0.0f // top
@@ -71,7 +72,7 @@ int main()
 
     // 0. copy our vertices array in a buffer for OpenGL to use
     vertexBufferObject.bindBuffer();
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    vertexBufferObject.createAndInitializeBufferData(vertices);
 
     // 1. then set the vertex attributes pointers
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
