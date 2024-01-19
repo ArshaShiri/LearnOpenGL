@@ -28,7 +28,7 @@ Window::Window(const int width, const int height, const std::string windowName)
     }
     catch (const std::exception &e)
     {
-        std::cout << "Exception with message: '" << e.what() << "'\n";
+        std::cout << "Window exception with message: '" << e.what() << "'\n";
     }
     registerFrameBufferCallback();
 }

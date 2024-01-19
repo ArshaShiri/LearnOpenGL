@@ -1,1 +1,1 @@
-add_subdirectory(getting_started)
+add_subdirectory(learn_opengl_tutorial)
