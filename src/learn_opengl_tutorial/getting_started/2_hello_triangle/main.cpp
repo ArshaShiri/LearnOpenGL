@@ -5,6 +5,7 @@
 // Do not change the order of include files here...
 #include <GLFW/glfw3.h>
 
+#include "common/buffer.hpp"
 #include "common/program.hpp"
 #include "common/shader.hpp"
 #include "common/window.hpp"
@@ -61,14 +62,16 @@ int main()
         0.0f,  0.5f,  0.0f // top
     };
 
-    unsigned int VBO, VAO;
+    auto vbo = Buffer{};
+
+    unsigned int VAO;
     glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
+
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
     glBindVertexArray(VAO);
 
     // 0. copy our vertices array in a buffer for OpenGL to use
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    vbo.bindBuffer();
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     // 1. then set the vertex attributes pointers
