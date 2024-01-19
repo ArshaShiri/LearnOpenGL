@@ -9,3 +9,5 @@ VertexArray::VertexArray()
 }
 
 void VertexArray::bind() { glBindVertexArray(vertexArrayId_); }
+
+void VertexArray::unbind() { glBindVertexArray(0); }

@@ -85,11 +85,10 @@ int main()
     // happens.
     // Modifying other VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs)
     // when it's not directly necessary.
-    glBindVertexArray(0);
+    vertexArrayObject.unbind();
 
     // uncomment this call to draw in wireframe polygons.
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
 
     // render loop
     while (!window.shouldClose())

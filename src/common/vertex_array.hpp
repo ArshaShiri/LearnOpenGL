@@ -20,6 +20,12 @@ class VertexArray
      */
     void bind();
 
+    /**
+     * @brief Unbinds the vertex array object
+     *
+     */
+    void unbind();
+
   private:
     unsigned int vertexArrayId_;
 };
