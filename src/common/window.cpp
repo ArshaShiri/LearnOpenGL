@@ -20,9 +20,9 @@ void processInputDefault(GLFWwindow *window)
 Window::Window(const int width, const int height, const std::string windowName)
   : window_{ nullptr, glfwDestroyWindow }, processInputCallback_{ processInputDefault }
 {
-    init();
     try
     {
+        init();
         createGLFWindow(width, height, windowName);
         initializeGlad();
     }
@@ -50,7 +50,9 @@ Window::~Window() { glfwTerminate(); }
 
 void Window::init()
 {
-    glfwInit();
+    if (!glfwInit())
+        throw std::runtime_error("Failed to initialize GLFW");
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, MAJOR_VERSION_);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, MINOR_VERSION_);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
