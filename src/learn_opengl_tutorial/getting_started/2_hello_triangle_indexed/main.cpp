@@ -34,6 +34,14 @@ std::string fragmentShaderSource =
 
 } // namespace
 
+void checkErrors()
+{
+    while (GLenum error = glGetError())
+    {
+        std::cout << error << std::endl;
+    }
+}
+
 int main()
 {
     const auto windowWidth = 800;
@@ -56,13 +64,22 @@ int main()
 
     // TODO: For now leave it like this until design of a better wrapper for vertices.
     // set up vertex data (and buffer(s)) and configure vertex attributes
-    std::vector<float> triangleVertices{
-        -0.5f, -0.5f, 0.0f, // left
-        0.5f,  -0.5f, 0.0f, // right
-        0.0f,  0.5f,  0.0f // top
+
+    std::vector<float> rectangleVertices{
+        0.5f,  0.5f,  0.0f, // top right
+        0.5f,  -0.5f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f, // bottom left
+        -0.5f, 0.5f,  0.0f // top left
+    };
+
+    std::vector<unsigned int> rectangleVerticesIndices{
+        // note that we start from 0!
+        0, 1, 3, // first triangle
+        1, 2, 3 // second triangle
     };
 
     auto vertexBufferObject = Buffer(BufferTye::ArrayBuffer);
+    auto elementBufferObject = Buffer(BufferTye::ElementArrayBuffer);
     auto vertexArrayObject = VertexArray{};
 
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
@@ -70,7 +87,10 @@ int main()
 
     // 0. copy our vertices array in a buffer for OpenGL to use
     vertexBufferObject.bind();
-    vertexBufferObject.createAndInitializeBufferData(triangleVertices);
+    vertexBufferObject.createAndInitializeBufferData(rectangleVertices);
+
+    elementBufferObject.bind();
+    elementBufferObject.createAndInitializeBufferData(rectangleVerticesIndices);
 
     // TODO: To which class these should go?
     // 1. then set the vertex attributes pointers
@@ -81,8 +101,12 @@ int main()
     // vertex buffer object so afterwards we can safely unbind
     vertexBufferObject.unbind();
 
+    // remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO;
+    // keep the EBO bound.
+
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely
     // happens.
+
     // Modifying other VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs)
     // when it's not directly necessary.
     vertexArrayObject.unbind();
@@ -105,7 +129,9 @@ int main()
         // we'll do so to keep things a bit more organized
         vertexArrayObject.bind();
 
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        // Use glDrawElements to indicate we want to render the triangles from an index buffer.
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        checkErrors();
         // glBindVertexArray(0); // no need to unbind it every time
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

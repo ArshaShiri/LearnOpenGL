@@ -1,4 +1,5 @@
 Add debug build
 Add compilation options (Wall, warning as error etc.)
+Add fast build if nothing is changed
 Add Documentation
 Unit Testing
