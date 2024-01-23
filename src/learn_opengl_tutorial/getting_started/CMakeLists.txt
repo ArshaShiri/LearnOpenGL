@@ -1,3 +1,6 @@
 add_subdirectory(1_hello_window)
-add_subdirectory(2_hello_triangle)
-add_subdirectory(2_hello_triangle_indexed)
+add_subdirectory(2_1_hello_triangle)
+add_subdirectory(2_2_hello_triangle_indexed)
+add_subdirectory(2_3_hello_triangle_exercise_1)
+add_subdirectory(2_4_hello_triangle_exercise_2)
+add_subdirectory(2_5_hello_triangle_exercise_3)
