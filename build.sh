@@ -18,18 +18,26 @@ printManual() {
 usage: $progname
 
     echo -c "\t clean build"
-    echo -d "\t clean build"
+    echo -d "\t debug build"
+    echo -i "\t reconfigure project"
 EOF
     exit "${1-0}"
 }
 
-while getopts ci opt; do
+clean_build=false
+reconfigure=false
+debug=false
+
+while getopts cid opt; do
     case $opt in
     c)
         clean_build=true
         ;;
     i)
-        install_conan=true
+        reconfigure=true
+        ;;
+    d)
+        debug=true
         ;;
     *)
         printManual
@@ -44,14 +52,22 @@ if [ $clean_build ]; then
     rm -rf $build_folder_name
 fi
 
-if [ "$install_conan" ] || [ "$clean_build" ]; then
+build_path=build/Release/generators
+build_type=Release
+
+if [ "$debug" ]; then
+    build_path=build/Debug/generators
+    build_type=Debug
+fi
+
+if [ "$reconfigure" ] || [ "$clean_build" ]; then
     conan create lib/glad/.
-    conan install . --build=missing
+    conan install . --build=missing --settings=build_type=$build_type
 fi
 
-cd build/Release/generators
 if [ $clean_build ]; then
-    cmake ../../.. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+    echo $build_path/conan_toolchain.cmake
+    cmake -S . -DCMAKE_TOOLCHAIN_FILE=$build_path/conan_toolchain.cmake -B $build_path -DCMAKE_BUILD_TYPE=$build_type
 fi
 
-cmake --build .
+cmake --build $build_path
