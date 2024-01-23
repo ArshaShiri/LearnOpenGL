@@ -55,17 +55,17 @@ fi
 build_path=build/Release/generators
 build_type=Release
 
-if [ "$debug" ]; then
+if [ "$debug" = true]; then
     build_path=build/Debug/generators
     build_type=Debug
 fi
 
-if [ "$reconfigure" ] || [ "$clean_build" ]; then
+if [ "$reconfigure" = true ] || [ "$clean_build" = true ]; then
     conan create lib/glad/.
-    conan install . --build=missing --settings=build_type=$build_type
+    conan install . --build=missing --settings:host=build_type=$build_type
 fi
 
-if [ $clean_build ]; then
+if [ $clean_build = true ]; then
     echo $build_path/conan_toolchain.cmake
     cmake -S . -DCMAKE_TOOLCHAIN_FILE=$build_path/conan_toolchain.cmake -B $build_path -DCMAKE_BUILD_TYPE=$build_type
 fi
