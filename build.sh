@@ -1,29 +1,5 @@
 #!/bin/sh
 
-# TODO Add more options to the build: Debug etc.
-printManual() {
-    echo -c "\t clean build"
-    exit 1
-}
-
-while getopts ":c" opt; do
-    case $opt in
-    c) clean_build=true ;;
-    \?)
-        printManual
-        exit
-        ;;
-    esac
-done
-
-
-build_folder_name="build"
-
-if [ $clean_build ]; then
-    rm -rf $build_folder_name
-fi
-
-
 # sudo apt install libxcb-keysyms1-dev
 # sudo apt install libxcb-randr0-dev
 # sudo apt install libxcb-shape0-dev
@@ -34,12 +10,35 @@ fi
 # sudo apt install libxcb-cursor-dev
 # sudo apt install libxcb-util-dev
 
-# mkdir -p $build_folder_name
+# TODO Add more options to the build: Debug etc.
+printManual() {
+    echo -c "\t clean build"
+    exit 1
+}
 
-conan create lib/glad/.
-conan install . --build=missing
-# conan install . --output-folder=$build_folder_name --build=missing
+while getopts ":c" opt; do
+    case $opt in
+    c) clean_build=true ;;
+    i) install_conan=true ;;
+    \?)
+        printManual
+        exit
+        ;;
+    esac
+done
+
+build_folder_name="build"
+
+if [ $install_conan ]; then
+    conan create lib/glad/.
+    conan install . --build=missing
+    # conan install . --output-folder=$build_folder_name --build=missing
+fi
 
 cd build/Release/generators
-cmake ../../.. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+if [ $clean_build ]; then
+    rm -rf $build_folder_name
+    cmake ../../.. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_BUILD_TYPE=Release
+fi
+
 cmake --build .
