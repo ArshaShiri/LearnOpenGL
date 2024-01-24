@@ -48,7 +48,7 @@ done
 
 build_folder_name="build"
 
-if [ $clean_build ]; then
+if [ $clean_build = true ]; then
     rm -rf $build_folder_name
 fi
 
