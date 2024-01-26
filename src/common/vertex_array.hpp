@@ -26,6 +26,12 @@ class VertexArray
      */
     void unbind();
 
+    /**
+     * @brief Delete the array
+     *
+     */
+    void deleteArrayObject();
+
   private:
     unsigned int vertexArrayId_;
 };

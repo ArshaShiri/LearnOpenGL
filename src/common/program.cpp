@@ -24,3 +24,15 @@ void Program::linkProgram() const
 }
 
 void Program::useProgram() const { glUseProgram(programId_); }
+
+void Program::deleteProgram() { glDeleteProgram(programId_); }
+
+int Program::getUniformLocation(const std::string &uniformName) const
+{
+    const auto location = glGetUniformLocation(programId_, uniformName.c_str());
+
+    if (location == -1)
+        throw std::runtime_error("Invalid location for the uniform!");
+
+    return location;
+}

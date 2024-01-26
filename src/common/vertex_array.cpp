@@ -11,3 +11,5 @@ VertexArray::VertexArray()
 void VertexArray::bind() { glBindVertexArray(vertexArrayId_); }
 
 void VertexArray::unbind() { glBindVertexArray(0); }
+
+void VertexArray::deleteArrayObject() { glDeleteVertexArrays(1, &vertexArrayId_); }

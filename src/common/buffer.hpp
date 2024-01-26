@@ -43,6 +43,12 @@ class Buffer
     void unbind();
 
     /**
+     * @brief Delete the buffer
+     *
+     */
+    void deleteBuffer();
+
+    /**
      * @brief Creates a and Initializes buffer data object
      *
      * @param data The data that is going to be copied to the buffer

@@ -45,3 +45,5 @@ void Buffer::unbind()
         break;
     }
 }
+
+void Buffer::deleteBuffer() { glDeleteBuffers(1, &bufferId_); }
