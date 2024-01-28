@@ -12,6 +12,9 @@ class Program
     void useProgram() const;
     void deleteProgram();
     int getUniformLocation(const std::string &uniformName) const;
+    void setBool(const std::string &name, bool value);
+    void setInt(const std::string &name, int value);
+    void setBool(const std::string &name, float value);
 
   private:
     unsigned int programId_;

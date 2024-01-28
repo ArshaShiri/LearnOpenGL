@@ -36,3 +36,12 @@ int Program::getUniformLocation(const std::string &uniformName) const
 
     return location;
 }
+
+void Program::setBool(const std::string &name, bool value)
+{
+    glUniform1i(getUniformLocation(name), static_cast<int>(value));
+}
+
+void Program::setInt(const std::string &name, int value) { glUniform1i(getUniformLocation(name), value); }
+
+void Program::setBool(const std::string &name, float value) { glUniform1f(getUniformLocation(name), value); }

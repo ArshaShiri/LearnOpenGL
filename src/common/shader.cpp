@@ -1,14 +1,21 @@
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 
 #include "shader.hpp"
 
-Shader::Shader(const ShaderType shaderType, const std::string &shaderSource)
-  : shaderId_{ 0 }, shaderSource_{ shaderSource.c_str() }
+namespace fs = std::filesystem;
+
+Shader::Shader(const ShaderType shaderType, std::string shaderSource, const std::string &shaderFilePath)
+  : shaderId_{ 0 }, shaderSource_{ std::move(shaderSource) }
 {
     try
     {
+        if (shaderSource_.empty())
+            shaderSource_ = getSourceFromFile(shaderFilePath);
+
         createShader(shaderType);
         compileShader();
     }
@@ -39,7 +46,8 @@ void Shader::createShader(const ShaderType shaderType)
         break;
     }
 
-    glShaderSource(shaderId_, 1, &shaderSource_, nullptr);
+    const char *shaderSourcePtr = shaderSource_.c_str();
+    glShaderSource(shaderId_, 1, &shaderSourcePtr, nullptr);
 }
 
 void Shader::compileShader()
@@ -56,4 +64,24 @@ void Shader::compileShader()
         glGetShaderInfoLog(shaderId_, 512, nullptr, infoLog);
         throw std::runtime_error(infoLog);
     }
+}
+
+std::string Shader::getSourceFromFile(const std::string &shaderFilePath) const
+{
+    if (!fs::exists(shaderFilePath))
+    {
+        std::stringstream ss;
+        ss << "Shader file cannot be found!\n";
+        ss << "Current path: " << fs::current_path() << "\n";
+        ss << "Shader path: " << shaderFilePath << "\n";
+
+        throw std::runtime_error(ss.str());
+    }
+
+    std::ifstream shaderFile;
+    shaderFile.open(shaderFilePath);
+    std::stringstream shaderSourceBuffer;
+    shaderSourceBuffer << shaderFile.rdbuf();
+
+    return shaderSourceBuffer.str();
 }

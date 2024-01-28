@@ -1,4 +1,5 @@
 #include <cmath>
+#include <filesystem>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -16,27 +17,6 @@
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
-
-const std::string vertexShaderSource =
-  "#version 330 core\n"
-  "layout (location = 0) in vec3 aPos;\n"
-  "layout (location = 1) in vec3 aColor;\n"
-  "out vec3 ourColor;\n"
-  "void main()\n"
-  "{\n"
-  "   gl_Position = vec4(aPos, 1.0);\n"
-  "   ourColor = aColor;\n"
-  "}\0";
-
-const std::string fragmentShaderSource =
-  "#version 330 core\n"
-  "out vec4 FragColor;\n"
-  "in vec3 ourColor;\n"
-  "void main()\n"
-  "{\n"
-  "   FragColor = vec4(ourColor, 1.0f);\n"
-  "}\n\0";
-
 void checkErrors()
 {
     while (GLenum error = glGetError())
@@ -53,8 +33,15 @@ int main()
     // TODO: This call silently initializes glad stuff which is not related to window.
     auto window = Window(windowWidth, windowHeight);
 
-    const auto vertexShader = Shader(ShaderType::Vertex, vertexShaderSource);
-    const auto fragmentShader = Shader(ShaderType::Fragment, fragmentShaderSource);
+    // TODO Having the path like this is quite fragile since it depends on the path from which the binary is run.
+    // TODO It is much better if the shader paths are passed as command line arguments.
+    const auto vertexShaderFilePath = std::filesystem::current_path().append(
+      "src/learn_opengl_tutorial/getting_started/3_2_shaders_interpolation/vertex_shader.fs");
+    const auto vertexShader = Shader(ShaderType::Vertex, "", vertexShaderFilePath);
+
+    const auto fragmentShaderFilePath = std::filesystem::current_path().append(
+      "src/learn_opengl_tutorial/getting_started/3_2_shaders_interpolation/fragment_shader.fs");
+    const auto fragmentShader = Shader(ShaderType::Fragment, "", fragmentShaderFilePath);
 
     auto shaderProgram = Program();
     shaderProgram.attachShader(vertexShader.getShaderId());

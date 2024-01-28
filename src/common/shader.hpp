@@ -1,6 +1,7 @@
-#ifndef SRC_COMMON_SHADER_HELPER
-#define SRC_COMMON_SHADER_HELPER
+#ifndef SRC_COMMON_SHADER
+#define SRC_COMMON_SHADER
 
+#include <filesystem>
 #include <string>
 
 #include <glad/glad.h>
@@ -11,19 +12,42 @@ enum class ShaderType
     Fragment
 };
 
+/**
+ * @brief A simple shader wrapper class
+ *
+ */
 class Shader
 {
   public:
-    Shader(const ShaderType shaderType, const std::string &shaderSource);
+    /**
+     * @brief Construct a new Shader object from the give source
+     *
+     * @param shaderType Type of the shader
+     * @param shaderSource The source code of the shader
+     * @param shaderFilePath The file path to a shader source (it is used if shaderSource is an empty string)
+     */
+    Shader(const ShaderType shaderType, std::string shaderSource, const std::string &shaderFilePath = "");
+
+    /**
+     * @brief Get the id of the shader
+     *
+     * @return The id of the shader
+     */
     const unsigned int getShaderId() const;
+
+    /**
+     * @brief Delete the underlying shader
+     *
+     */
     void deleteShader() const;
 
   private:
     void createShader(const ShaderType shaderType);
     void compileShader();
+    std::string getSourceFromFile(const std::string &shaderFilePath) const;
 
     unsigned int shaderId_;
-    const char *shaderSource_;
+    std::string shaderSource_;
 };
 
-#endif /* SRC_COMMON_SHADER_HELPER */
+#endif /* SRC_COMMON_SHADER */
