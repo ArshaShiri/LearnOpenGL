@@ -44,4 +44,4 @@ void Program::setBool(const std::string &name, bool value)
 
 void Program::setInt(const std::string &name, int value) { glUniform1i(getUniformLocation(name), value); }
 
-void Program::setBool(const std::string &name, float value) { glUniform1f(getUniformLocation(name), value); }
+void Program::setFloat(const std::string &name, float value) { glUniform1f(getUniformLocation(name), value); }
