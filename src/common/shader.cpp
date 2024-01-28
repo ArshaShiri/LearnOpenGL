@@ -55,14 +55,17 @@ void Shader::compileShader()
     glCompileShader(shaderId_);
 
     // check for shader compile errors
-    int success;
-    char infoLog[512];
+    int result;
+    glGetShaderiv(shaderId_, GL_COMPILE_STATUS, &result);
 
-    glGetShaderiv(shaderId_, GL_COMPILE_STATUS, &success);
-    if (!success)
+    if (result == GL_FALSE)
     {
-        glGetShaderInfoLog(shaderId_, 512, nullptr, infoLog);
-        throw std::runtime_error(infoLog);
+        int logLength = 0;
+        glGetShaderiv(shaderId_, GL_INFO_LOG_LENGTH, &logLength);
+        char *message = static_cast<char *>(alloca(logLength * sizeof(char)));
+        glGetShaderInfoLog(shaderId_, logLength, &logLength, message);
+
+        throw std::runtime_error(message);
     }
 }
 

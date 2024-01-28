@@ -11,15 +11,18 @@ void Program::attachShader(const unsigned int shaderId) const { glAttachShader(p
 void Program::linkProgram() const
 {
     glLinkProgram(programId_);
+    glValidateProgram(programId_);
 
-    int success;
-    char infoLog[512];
+    int result;
+    glGetProgramiv(programId_, GL_LINK_STATUS, &result);
 
-    glGetProgramiv(programId_, GL_LINK_STATUS, &success);
-    if (!success)
+    if (result == GL_FALSE)
     {
-        glGetProgramInfoLog(programId_, 512, nullptr, infoLog);
-        throw std::runtime_error(infoLog);
+        int logLength = 0;
+        glGetProgramiv(programId_, GL_INFO_LOG_LENGTH, &logLength);
+        char *message = static_cast<char *>(alloca(logLength * sizeof(char)));
+        glGetProgramInfoLog(programId_, logLength, &logLength, message);
+        throw std::runtime_error(message);
     }
 }
 

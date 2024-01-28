@@ -31,6 +31,12 @@ and that explains the black side of the triangle.
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
+void clearError()
+{
+    while (glGetError() != GL_NO_ERROR)
+        ;
+}
+
 void checkErrors()
 {
     while (GLenum error = glGetError())
