@@ -39,11 +39,11 @@ int main()
     // TODO Having the path like this is quite fragile since it depends on the path from which the binary is run.
     // TODO It is much better if the shader paths are passed as command line arguments.
     const auto vertexShaderFilePath = std::filesystem::current_path().append(
-      "src/learn_opengl_tutorial/getting_started/3_3_shaders_exercise_2/vertex_shader.fs");
+      "src/learn_opengl_tutorial/getting_started/3_4_shaders_exercise_2/vertex_shader.fs");
     const auto vertexShader = Shader(ShaderType::Vertex, "", vertexShaderFilePath);
 
     const auto fragmentShaderFilePath = std::filesystem::current_path().append(
-      "src/learn_opengl_tutorial/getting_started/3_3_shaders_exercise_2/fragment_shader.fs");
+      "src/learn_opengl_tutorial/getting_started/3_4_shaders_exercise_2/fragment_shader.fs");
     const auto fragmentShader = Shader(ShaderType::Fragment, "", fragmentShaderFilePath);
 
     auto shaderProgram = Program();
