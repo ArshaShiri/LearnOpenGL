@@ -6,10 +6,11 @@
 // Do not change the order of include files here...
 #include <GLFW/glfw3.h>
 
-#include "common/buffer.hpp"
+#include "common/index_buffer.hpp"
 #include "common/program.hpp"
 #include "common/shader.hpp"
 #include "common/vertex_array.hpp"
+#include "common/vertex_buffer.hpp"
 #include "common/window.hpp"
 
 namespace
@@ -78,8 +79,8 @@ int main()
         1, 2, 3 // second triangle
     };
 
-    auto vertexBufferObject = Buffer(BufferTye::ArrayBuffer);
-    auto elementBufferObject = Buffer(BufferTye::ElementArrayBuffer);
+    auto vertexBufferObject = VertexBuffer{};
+    auto elementBufferObject = IndexBuffer();
     auto vertexArrayObject = VertexArray{};
 
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).

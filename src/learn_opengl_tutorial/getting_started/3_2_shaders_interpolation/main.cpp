@@ -8,10 +8,10 @@
 // Do not change the order of include files here...
 #include <GLFW/glfw3.h>
 
-#include "common/buffer.hpp"
 #include "common/program.hpp"
 #include "common/shader.hpp"
 #include "common/vertex_array.hpp"
+#include "common/vertex_buffer.hpp"
 #include "common/window.hpp"
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -60,7 +60,7 @@ int main()
         0.0f,  0.5f,  0.0f, 0.0f, 0.0f, 1.0f // top
     };
 
-    auto vertexBufferObject = Buffer(BufferTye::ArrayBuffer);
+    auto vertexBufferObject = VertexBuffer{};
     auto vertexArrayObject = VertexArray{};
 
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
