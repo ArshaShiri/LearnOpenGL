@@ -1,6 +1,9 @@
 #ifndef SRC_COMMON_VERTEX_ARRAY
 #define SRC_COMMON_VERTEX_ARRAY
 
+#include "vertex_buffer.hpp"
+#include "vertex_buffer_layout.hpp"
+
 /**
  * @brief A simple class to wrap a vertex array object
  *
@@ -14,17 +17,20 @@ class VertexArray
      */
     VertexArray();
 
+
+    void addBuffer(const VertexBuffer &vertexBuffer, const VertexBufferLayout &layout);
+
     /**
      * @brief Binds the vertex array object
      *
      */
-    void bind();
+    void bind() const;
 
     /**
      * @brief Unbinds the vertex array object
      *
      */
-    void unbind();
+    void unbind() const;
 
     /**
      * @brief Delete the array

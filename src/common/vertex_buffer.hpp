@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include <glad/glad.h>
+
 // enum class BufferTye
 // {
 //     ArrayBuffer,
@@ -33,13 +35,13 @@ class VertexBuffer
      * @brief Binds to target
      *
      */
-    void bind();
+    void bind() const;
 
     /**
      * @brief Unbind buffer
      *
      */
-    void unbind();
+    void unbind() const;
 
     /**
      * @brief Delete the buffer

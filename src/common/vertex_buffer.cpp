@@ -12,9 +12,9 @@ VertexBuffer::VertexBuffer()
 
 const unsigned int VertexBuffer::getId() const { return bufferId_; }
 
-void VertexBuffer::bind() { glBindBuffer(GL_ARRAY_BUFFER, bufferId_); }
+void VertexBuffer::bind() const { glBindBuffer(GL_ARRAY_BUFFER, bufferId_); }
 
-void VertexBuffer::unbind() { glBindBuffer(GL_ARRAY_BUFFER, 0); }
+void VertexBuffer::unbind() const { glBindBuffer(GL_ARRAY_BUFFER, 0); }
 
 void VertexBuffer::deleteBuffer() { glDeleteBuffers(1, &bufferId_); }
 

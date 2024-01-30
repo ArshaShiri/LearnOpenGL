@@ -2,6 +2,7 @@
 #define SRC_COMMON_RENDERER
 
 #include <glad/glad.h>
+#include <signal.h>
 
 // clang-format off
 #define ASSERT(x) if (!(x)) raise(SIGTRAP);
