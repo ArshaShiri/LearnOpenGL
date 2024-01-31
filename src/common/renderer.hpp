@@ -19,4 +19,17 @@
 void GLClearError();
 bool GLLogCall(const char *function, const char *file, int line);
 
+class VertexArray;
+class IndexBuffer;
+class Program;
+
+class Renderer
+{
+  public:
+    void draw(const VertexArray &vertexArray, const IndexBuffer &indexBuffer, const Program &shaderProgram) const;
+    void clear() const;
+
+  private:
+};
+
 #endif /* SRC_COMMON_RENDERER */

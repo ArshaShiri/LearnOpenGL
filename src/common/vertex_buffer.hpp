@@ -7,11 +7,6 @@
 
 #include "renderer.hpp"
 
-// enum class BufferTye
-// {
-//     ArrayBuffer,
-//     ElementArrayBuffer
-// };
 
 /**
  * @brief A simple vertex buffer class
