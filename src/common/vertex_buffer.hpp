@@ -5,6 +5,8 @@
 
 #include <glad/glad.h>
 
+#include "renderer.hpp"
+
 // enum class BufferTye
 // {
 //     ArrayBuffer,
@@ -23,6 +25,13 @@ class VertexBuffer
      *
      */
     VertexBuffer();
+
+    template<typename T>
+    VertexBuffer(const std::vector<T> &data) : VertexBuffer()
+    {
+        bind();
+        createAndInitializeBufferData(data);
+    }
 
     /**
      * @brief Get the Id of the buffer
@@ -57,7 +66,7 @@ class VertexBuffer
     template<typename T>
     void createAndInitializeBufferData(const std::vector<T> &data)
     {
-        glBufferData(GL_ARRAY_BUFFER, sizeof(T) * data.size(), data.data(), GL_STATIC_DRAW);
+        GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(T) * data.size(), data.data(), GL_STATIC_DRAW));
     }
 
     ~VertexBuffer();

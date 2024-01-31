@@ -26,6 +26,7 @@ and that explains the black side of the triangle.
 #include "common/shader.hpp"
 #include "common/vertex_array.hpp"
 #include "common/vertex_buffer.hpp"
+#include "common/vertex_buffer_layout.hpp"
 #include "common/window.hpp"
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
@@ -37,13 +38,13 @@ void clearError()
         ;
 }
 
-void checkErrors()
-{
-    while (GLenum error = glGetError())
-    {
-        std::cout << error << std::endl;
-    }
-}
+// void checkErrors()
+// {
+//     while (GLenum error = glGetError())
+//     {
+//         std::cout << error << std::endl;
+//     }
+// }
 
 int main()
 {
@@ -80,23 +81,16 @@ int main()
         0.0f,  0.5f,  0.0f, 0.0f, 0.0f, 1.0f // top
     };
 
-    auto vertexBufferObject = VertexBuffer{};
+    auto vertexBufferObject = VertexBuffer{ vertices };
     auto vertexArrayObject = VertexArray{};
+    // vertexArrayObject.bind();
 
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    vertexArrayObject.bind();
 
-    // 0. copy our vertices array in a buffer for OpenGL to use
-    vertexBufferObject.bind();
-    vertexBufferObject.createAndInitializeBufferData(vertices);
-
-    // TODO: To which class these should go?
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
-    glEnableVertexAttribArray(0);
-
-    // color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    auto vertexBufferLayout = VertexBufferLayout{};
+    vertexBufferLayout.push<float>(3);
+    vertexBufferLayout.push<float>(3);
+    vertexArrayObject.addBuffer(vertexBufferObject, vertexBufferLayout);
 
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound
@@ -123,7 +117,7 @@ int main()
 
         // render the triangle
         glDrawArrays(GL_TRIANGLES, 0, 3);
-        checkErrors();
+
 
         window.swapBuffers();
         glfwPollEvents();

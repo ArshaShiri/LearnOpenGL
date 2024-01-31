@@ -55,7 +55,7 @@ fi
 build_path=build/Release/generators
 build_type=Release
 
-if [ $debug = true]; then
+if [ $debug = true ]; then
     echo "Debug build"
     build_path=build/Debug/generators
     build_type=Debug

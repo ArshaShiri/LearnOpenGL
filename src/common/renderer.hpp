@@ -6,9 +6,14 @@
 
 // clang-format off
 #define ASSERT(x) if (!(x)) raise(SIGTRAP);
+
+#ifdef DEBUG_BUILD
 #define GLCall(x) GLClearError();\
     x;\
     ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+#else
+#  define GLCall(x) x
+#endif
 // clang-format on
 
 void GLClearError();

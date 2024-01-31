@@ -7,7 +7,7 @@
 VertexBuffer::VertexBuffer()
 {
     const auto numberOfBuffers = 1;
-    glGenBuffers(numberOfBuffers, &bufferId_);
+    GLCall(glGenBuffers(numberOfBuffers, &bufferId_));
 }
 
 const unsigned int VertexBuffer::getId() const { return bufferId_; }
