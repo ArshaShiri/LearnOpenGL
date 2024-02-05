@@ -64,7 +64,7 @@ int main()
 
     // glad: load all OpenGL function pointers
     // ---------------------------------------
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
     {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
@@ -119,7 +119,7 @@ int main()
     glBindVertexArray(VAOs[0]);
     glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(firstTriangle), firstTriangle, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0); // Vertex attributes stay the same
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr); // Vertex attributes stay the same
     glEnableVertexAttribArray(0);
     // glBindVertexArray(0); // no need to unbind at all as we directly bind a different VAO the next few lines
     // second triangle setup
@@ -128,8 +128,8 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]); // and a different VBO
     glBufferData(GL_ARRAY_BUFFER, sizeof(secondTriangle), secondTriangle, GL_STATIC_DRAW);
     glVertexAttribPointer(
-      0, 3, GL_FLOAT, GL_FALSE, 0, (void *)0); // because the vertex data is tightly packed we can also specify 0 as the
-                                               // vertex attribute's stride to let OpenGL figure it out
+      0, 3, GL_FLOAT, GL_FALSE, 0, nullptr); // because the vertex data is tightly packed we can also specify 0 as the
+                                             // vertex attribute's stride to let OpenGL figure it out
     glEnableVertexAttribArray(0);
     // glBindVertexArray(0); // not really necessary as well, but beware of calls that could affect VAOs while this one
     // is bound (like binding element buffer objects, or enabling/disabling vertex attributes)
@@ -192,7 +192,7 @@ void processInput(GLFWwindow *window)
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+void framebuffer_size_callback(__attribute__((unused)) GLFWwindow *window, int width, int height)
 {
     // make sure the viewport matches the new window dimensions; note that width and
     // height will be significantly larger than specified on retina displays.

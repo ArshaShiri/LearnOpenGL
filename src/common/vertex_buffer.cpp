@@ -10,7 +10,7 @@ VertexBuffer::VertexBuffer()
     GLCall(glGenBuffers(numberOfBuffers, &bufferId_));
 }
 
-const unsigned int VertexBuffer::getId() const { return bufferId_; }
+unsigned int VertexBuffer::getId() const { return bufferId_; }
 
 void VertexBuffer::bind() const { glBindBuffer(GL_ARRAY_BUFFER, bufferId_); }
 

@@ -25,7 +25,7 @@ Shader::Shader(const ShaderType shaderType, std::string shaderSource, const std:
     }
 }
 
-const unsigned int Shader::getShaderId() const { return shaderId_; }
+unsigned int Shader::getShaderId() const { return shaderId_; }
 
 void Shader::deleteShader() const { glDeleteShader(shaderId_); }
 
@@ -62,7 +62,7 @@ void Shader::compileShader()
     {
         int logLength = 0;
         glGetShaderiv(shaderId_, GL_INFO_LOG_LENGTH, &logLength);
-        char *message = static_cast<char *>(alloca(logLength * sizeof(char)));
+        char *message = static_cast<char *>(alloca(static_cast<long unsigned int>(logLength) * sizeof(char)));
         glGetShaderInfoLog(shaderId_, logLength, &logLength, message);
 
         throw std::runtime_error(message);

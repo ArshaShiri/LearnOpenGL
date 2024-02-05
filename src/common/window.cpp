@@ -78,7 +78,7 @@ void Window::createGLFWindow(const int width, const int height, const std::strin
 void Window::initializeGlad() const
 {
     // glad: load all OpenGL function pointers
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
     {
         throw std::runtime_error("Failed to initialize GLAD");
     }
@@ -89,6 +89,7 @@ void Window::registerFrameBufferCallback()
     // glfw: whenever the window size changed (by OS or user resize) this callback function executes
     // make sure the viewport matches the new window dimensions; note that width and
     // height will be significantly larger than specified on retina displays.
-    auto frameBufferSizeCallback = +[](GLFWwindow *window, int width, int height) { glViewport(0, 0, width, height); };
+    auto frameBufferSizeCallback =
+      +[](__attribute__((unused)) GLFWwindow *window, int width, int height) { glViewport(0, 0, width, height); };
     glfwSetFramebufferSizeCallback(window_.get(), frameBufferSizeCallback);
 }

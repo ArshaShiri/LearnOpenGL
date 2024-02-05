@@ -12,8 +12,6 @@ int main()
     const auto windowHeight = 600;
     auto window = Window(windowWidth, windowHeight);
 
-    auto *glfwWindow = window.getGLFWindowPointer();
-
     // render loop
     while (!window.shouldClose())
     {

@@ -33,7 +33,7 @@ class Shader
      *
      * @return The id of the shader
      */
-    const unsigned int getShaderId() const;
+    unsigned int getShaderId() const;
 
     /**
      * @brief Delete the underlying shader

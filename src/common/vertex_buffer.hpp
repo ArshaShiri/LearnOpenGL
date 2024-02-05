@@ -33,7 +33,7 @@ class VertexBuffer
      *
      * @return const unsigned int
      */
-    const unsigned int getId() const;
+    unsigned int getId() const;
 
     /**
      * @brief Binds to target
@@ -61,7 +61,8 @@ class VertexBuffer
     template<typename T>
     void createAndInitializeBufferData(const std::vector<T> &data)
     {
-        GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(T) * data.size(), data.data(), GL_STATIC_DRAW));
+        GLCall(
+          glBufferData(GL_ARRAY_BUFFER, static_cast<long int>(sizeof(T) * data.size()), data.data(), GL_STATIC_DRAW));
     }
 
     ~VertexBuffer();

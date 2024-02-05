@@ -21,7 +21,7 @@ class IndexBuffer
      *
      * @return const unsigned int
      */
-    const unsigned int getId() const;
+    unsigned int getId() const;
 
     /**
      * @brief Binds to target
