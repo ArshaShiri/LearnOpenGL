@@ -1,4 +1,2 @@
-Add compilation options (Wall, warning as error etc.)
-Add fast build if nothing is changed
-Add Documentation
+Make sure the resources are moved with the binaries so it does not matter from where binaries are run.
 Unit Testing
