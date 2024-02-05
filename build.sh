@@ -64,6 +64,7 @@ fi
 if [ $reconfigure = true ] || [ "$clean_build" = true ]; then
     echo "Reconfiguring the project"
     conan create lib/glad/.
+    conan create lib/stb_image/.
     conan install . --build=missing --settings:host=build_type=$build_type
 fi
 
