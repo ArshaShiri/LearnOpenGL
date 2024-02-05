@@ -79,24 +79,28 @@ int main()
         1, 2, 3 // second triangle
     };
 
-    auto vertexBufferObject = VertexBuffer{};
+    auto vertexBufferObject = VertexBuffer{ rectangleVertices };
     auto elementBufferObject = IndexBuffer();
     auto vertexArrayObject = VertexArray{};
 
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    vertexArrayObject.bind();
+    // vertexArrayObject.bind();
+    auto vertexBufferLayout = VertexBufferLayout{};
+    vertexBufferLayout.push<float>(3);
+
+    vertexArrayObject.addBuffer(vertexBufferObject, vertexBufferLayout);
 
     // 0. copy our vertices array in a buffer for OpenGL to use
-    vertexBufferObject.bind();
-    vertexBufferObject.createAndInitializeBufferData(rectangleVertices);
+    // vertexBufferObject.bind();
+    // vertexBufferObject.createAndInitializeBufferData(rectangleVertices);
 
     elementBufferObject.bind();
     elementBufferObject.createAndInitializeBufferData(rectangleVerticesIndices);
 
     // TODO: To which class these should go?
     // 1. then set the vertex attributes pointers
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-    glEnableVertexAttribArray(0);
+    // glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+    // glEnableVertexAttribArray(0);
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound
     // vertex buffer object so afterwards we can safely unbind

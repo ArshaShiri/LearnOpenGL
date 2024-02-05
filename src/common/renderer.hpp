@@ -7,7 +7,7 @@
 // clang-format off
 #define ASSERT(x) if (!(x)) raise(SIGTRAP);
 
-#ifdef DEBUG_BUILD
+#ifndef NDEBUG
 #define GLCall(x) GLClearError();\
     x;\
     ASSERT(GLLogCall(#x, __FILE__, __LINE__))

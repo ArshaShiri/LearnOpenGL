@@ -9,23 +9,17 @@
 VertexArray::VertexArray()
 {
     const auto numberOfVertexArrays = 1;
-    glGenVertexArrays(numberOfVertexArrays, &vertexArrayId_);
+    GLCall(glGenVertexArrays(numberOfVertexArrays, &vertexArrayId_));
 }
 
 void VertexArray::addBuffer(const VertexBuffer &vertexBuffer, const VertexBufferLayout &layout)
 {
-    auto checkErrors = []() {
-        while (GLenum error = glGetError())
-        {
-            std::cout << error << std::endl;
-        }
-    };
-
     bind();
     vertexBuffer.bind();
+
     const auto &elements = layout.getElements();
+    const auto stride = static_cast<int>(layout.getStride());
     unsigned int offset = 0;
-    checkErrors();
 
     for (unsigned int elementIndex = 0; elementIndex < elements.size(); ++elementIndex)
     {
@@ -35,7 +29,7 @@ void VertexArray::addBuffer(const VertexBuffer &vertexBuffer, const VertexBuffer
                                      static_cast<int>(element.count),
                                      element.type,
                                      element.normalized,
-                                     static_cast<int>(layout.getStride()),
+                                     stride,
                                      reinterpret_cast<void *>(offset)));
 
         offset += element.count * VertexBufferElement::getSizeOfType(element.type);
