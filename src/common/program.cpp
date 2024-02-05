@@ -36,7 +36,7 @@ int Program::getUniformLocation(const std::string &uniformName) const
     const auto location = glGetUniformLocation(programId_, uniformName.c_str());
 
     if (location == -1)
-        throw std::runtime_error("Invalid location for the uniform!");
+        throw std::runtime_error("Invalid location for the uniform " + uniformName + ". Is the uniform unused?");
 
     return location;
 }
