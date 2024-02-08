@@ -2,6 +2,8 @@
 
 #include <glad/glad.h>
 
+#include <glm/gtc/type_ptr.hpp>
+
 #include "program.hpp"
 #include "renderer.hpp"
 
@@ -53,4 +55,9 @@ void Program::setFloat(const std::string &name, float value) { glUniform1f(getUn
 void Program::setUniform4f(const std::string &name, float f0, float f1, float f2, float f3)
 {
     glUniform4f(getUniformLocation(name), f0, f1, f2, f3);
+}
+
+void Program::setMatrix4fv(const std::string &name, glm::mat4 &matrix)
+{
+    glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, glm::value_ptr(matrix));
 }

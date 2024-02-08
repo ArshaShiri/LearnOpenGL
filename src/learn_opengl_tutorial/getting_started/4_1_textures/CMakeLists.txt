@@ -14,5 +14,5 @@ target_sources(${PROJECT_NAME} PRIVATE
     main.cpp
 )
 
-target_link_libraries(${PROJECT_NAME} glfw glad::glad stb_image::stb_image)
+target_link_libraries(${PROJECT_NAME} glfw glm::glm glad::glad stb_image::stb_image)
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/src")

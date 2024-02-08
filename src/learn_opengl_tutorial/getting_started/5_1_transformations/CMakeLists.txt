@@ -1,6 +1,7 @@
-project(textures_exercise_2)
+project(transformations)
 
 find_package(stb_image)
+find_package(glm)
 add_executable(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME} PRIVATE

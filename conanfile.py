@@ -8,6 +8,7 @@ class OpenGLTutorial(ConanFile):
 
     def requirements(self):
         self.requires("glfw/3.3.8")
+        self.requires("glm/cci.20230113")
         self.requires("glad/1.0")
         self.requires("stb_image/1.0")
 
