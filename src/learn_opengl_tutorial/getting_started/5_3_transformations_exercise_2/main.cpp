@@ -174,6 +174,7 @@ int main()
 
         // Spinning logic
         trans = glm::mat4(1.0f);
+        trans = glm::rotate(trans, static_cast<float>(glfwGetTime()), glm::vec3(0.0f, 0.0f, 1.0f));
         trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
         trans = glm::rotate(trans, static_cast<float>(glfwGetTime()), glm::vec3(0.0f, 0.0f, 1.0f));
         shaderProgram.setMatrix4fv("transform", trans);
