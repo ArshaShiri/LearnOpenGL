@@ -8,6 +8,7 @@ target_sources(${PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/src/common/program.cpp
     ${CMAKE_SOURCE_DIR}/src/common/renderer.cpp
     ${CMAKE_SOURCE_DIR}/src/common/shader.cpp
+    ${CMAKE_SOURCE_DIR}/src/common/texture.cpp
     ${CMAKE_SOURCE_DIR}/src/common/vertex_array.cpp
     ${CMAKE_SOURCE_DIR}/src/common/vertex_buffer.cpp
     ${CMAKE_SOURCE_DIR}/src/common/window.cpp
