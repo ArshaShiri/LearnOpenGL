@@ -33,11 +33,11 @@ int main()
     // TODO Having the path like this is quite fragile since it depends on the path from which the binary is run.
     // TODO It is much better if the shader paths are passed as command line arguments.
     const auto vertexShaderFilePath = std::filesystem::current_path().append(
-      "src/learn_opengl_tutorial/getting_started/7_1.camera_circle/vertex_shader.vs");
+      "src/learn_opengl_tutorial/getting_started/7_2.camera_keyboard/vertex_shader.vs");
     const auto vertexShader = Shader(ShaderType::Vertex, "", vertexShaderFilePath);
 
     const auto fragmentShaderFilePath = std::filesystem::current_path().append(
-      "src/learn_opengl_tutorial/getting_started/7_1.camera_circle/fragment_shader.fs");
+      "src/learn_opengl_tutorial/getting_started/7_2.camera_keyboard/fragment_shader.fs");
     const auto fragmentShader = Shader(ShaderType::Fragment, "", fragmentShaderFilePath);
 
     auto shaderProgram = Program();
@@ -181,9 +181,52 @@ int main()
     projection = glm::perspective(glm::radians(45.0f), static_cast<float>(windowWidth) / windowHeight, 0.1f, 100.0f);
     shaderProgram.setMatrix4fv("projection", projection);
 
+
+    glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+    glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+    glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    const auto right = glm::normalize(glm::cross(cameraFront, cameraUp));
+    float deltaTime = 0.0f; // time between current frame and last frame
+    float lastFrame = 0.0f;
+
+    auto processInputCallback = [&cameraPos, &cameraFront, &cameraUp, &right, &deltaTime](GLFWwindow *glfwWindow) {
+        if (glfwGetKey(glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+            glfwSetWindowShouldClose(glfwWindow, true);
+
+        float cameraSpeed = static_cast<float>(8.0f * deltaTime);
+
+        if (glfwGetKey(glfwWindow, GLFW_KEY_W) == GLFW_PRESS)
+        {
+            cameraPos += cameraSpeed * cameraFront;
+        }
+
+        if (glfwGetKey(glfwWindow, GLFW_KEY_S) == GLFW_PRESS)
+        {
+            cameraPos -= cameraSpeed * cameraFront;
+        }
+
+        if (glfwGetKey(glfwWindow, GLFW_KEY_D) == GLFW_PRESS)
+        {
+            cameraPos += right * cameraSpeed;
+        }
+
+        if (glfwGetKey(glfwWindow, GLFW_KEY_A) == GLFW_PRESS)
+        {
+            cameraPos -= right * cameraSpeed;
+        }
+    };
+
+    window.registerInputProcessingCallback(processInputCallback);
+
     // render loop
     while (!window.shouldClose())
     {
+        // per-frame time logic
+        // --------------------
+        float currentFrame = static_cast<float>(glfwGetTime());
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
         window.processInput();
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -198,10 +241,7 @@ int main()
 
         // make sure to initialize matrix to identity matrix first
         auto view = glm::mat4(1.0f);
-        float radius = 10.0f;
-        float camX = static_cast<float>(static_cast<float>(sin(glfwGetTime())) * radius);
-        float camZ = static_cast<float>(static_cast<float>(cos(glfwGetTime())) * radius);
-        view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         shaderProgram.setMatrix4fv("view", view);
 
         vertexArrayObject.bind();
