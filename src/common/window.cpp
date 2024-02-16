@@ -40,11 +40,19 @@ void Window::registerInputProcessingCallback(const std::function<void(GLFWwindow
     processInputCallback_ = callback;
 }
 
+void Window::registerMouseProcessingCallback(void (*callback)(GLFWwindow *, double, double))
+{
+    glfwSetCursorPosCallback(window_.get(), callback);
+    processMouseCallback_ = callback;
+}
+
 void Window::processInput() { processInputCallback_(window_.get()); }
 
 bool Window::shouldClose() const { return glfwWindowShouldClose(getGLFWindowPointer()); }
 
 void Window::swapBuffers() { glfwSwapBuffers(getGLFWindowPointer()); }
+
+void Window::captureMouseInput() const { glfwSetInputMode(window_.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED); }
 
 Window::~Window() { glfwTerminate(); }
 
