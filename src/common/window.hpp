@@ -26,6 +26,8 @@ class Window
     void processInput();
     bool shouldClose() const;
     void swapBuffers();
+    int getWidth() const;
+    int getHeight() const;
 
     /**
      * @brief Enable capturing the cursor. Capturing a cursor means that, once the application has focus, the mouse
@@ -47,6 +49,8 @@ class Window
 
     std::unique_ptr<GLFWwindow, decltype(&glfwDestroyWindow)> window_;
     std::function<void(GLFWwindow *window)> processInputCallback_;
+    int width_;
+    int height_;
 };
 
 #endif /* SRC_WINDOW */

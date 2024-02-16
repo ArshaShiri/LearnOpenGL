@@ -18,7 +18,9 @@ void processInputDefault(GLFWwindow *window)
 } // namespace
 
 Window::Window(const int width, const int height, const std::string windowName)
-  : window_{ nullptr, glfwDestroyWindow }, processInputCallback_{ processInputDefault }
+  : window_{ nullptr, glfwDestroyWindow }, processInputCallback_{ processInputDefault }, width_{ width }, height_{
+        height
+    }
 {
     try
     {
@@ -55,6 +57,10 @@ void Window::processInput() { processInputCallback_(window_.get()); }
 bool Window::shouldClose() const { return glfwWindowShouldClose(getGLFWindowPointer()); }
 
 void Window::swapBuffers() { glfwSwapBuffers(getGLFWindowPointer()); }
+
+int Window::getWidth() const { return width_; }
+
+int Window::getHeight() const { return height_; }
 
 void Window::captureMouseInput() const { glfwSetInputMode(window_.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED); }
 
