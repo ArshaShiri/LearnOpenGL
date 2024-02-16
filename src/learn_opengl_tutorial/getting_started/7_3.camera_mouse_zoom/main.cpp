@@ -177,11 +177,6 @@ int main()
                                           glm::vec3(1.3f, -2.0f, -2.5f),  glm::vec3(1.5f, 2.0f, -2.5f),
                                           glm::vec3(1.5f, 0.2f, -1.5f),   glm::vec3(-1.3f, 1.0f, -1.5f) };
 
-    auto projection = glm::mat4(1.0f);
-    projection = glm::perspective(glm::radians(45.0f), static_cast<float>(windowWidth) / windowHeight, 0.1f, 100.0f);
-    shaderProgram.setMatrix4fv("projection", projection);
-
-
     glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
     static glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -264,6 +259,20 @@ int main()
         cameraFront = glm::normalize(direction);
     };
 
+    static float fov = 45.0f;
+
+    auto scrollCallback =
+      [](__attribute__((unused)) GLFWwindow *glfwWindow, __attribute__((unused)) double xoffset, double yoffset) {
+          fov -= static_cast<float>(yoffset);
+
+          if (fov < 1.0f)
+              fov = 1.0f;
+
+          if (fov > 45.0f)
+              fov = 45.0f;
+      };
+
+    window.registerMouseScrollingCallback(scrollCallback);
     window.registerMouseProcessingCallback(mouseCallback);
 
     // render loop
@@ -286,11 +295,14 @@ int main()
         GLCall(glActiveTexture(GL_TEXTURE1));
         GLCall(glBindTexture(GL_TEXTURE_2D, texture2));
 
-
         // make sure to initialize matrix to identity matrix first
         auto view = glm::mat4(1.0f);
         view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         shaderProgram.setMatrix4fv("view", view);
+
+        auto projection = glm::mat4(1.0f);
+        projection = glm::perspective(glm::radians(fov), static_cast<float>(windowWidth) / windowHeight, 0.1f, 100.0f);
+        shaderProgram.setMatrix4fv("projection", projection);
 
         vertexArrayObject.bind();
 

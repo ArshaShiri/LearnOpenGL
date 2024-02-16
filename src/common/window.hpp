@@ -22,6 +22,7 @@ class Window
     GLFWwindow *getGLFWindowPointer() const;
     void registerInputProcessingCallback(const std::function<void(GLFWwindow *window)> &callback);
     void registerMouseProcessingCallback(void (*callback)(GLFWwindow *, double, double));
+    void registerMouseScrollingCallback(void (*callback)(GLFWwindow *, double, double));
     void processInput();
     bool shouldClose() const;
     void swapBuffers();
@@ -46,7 +47,6 @@ class Window
 
     std::unique_ptr<GLFWwindow, decltype(&glfwDestroyWindow)> window_;
     std::function<void(GLFWwindow *window)> processInputCallback_;
-    std::function<void(GLFWwindow *window, double xpos, double ypos)> processMouseCallback_;
 };
 
 #endif /* SRC_WINDOW */

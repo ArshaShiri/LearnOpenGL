@@ -43,7 +43,11 @@ void Window::registerInputProcessingCallback(const std::function<void(GLFWwindow
 void Window::registerMouseProcessingCallback(void (*callback)(GLFWwindow *, double, double))
 {
     glfwSetCursorPosCallback(window_.get(), callback);
-    processMouseCallback_ = callback;
+}
+
+void Window::registerMouseScrollingCallback(void (*callback)(GLFWwindow *, double, double))
+{
+    glfwSetScrollCallback(window_.get(), callback);
 }
 
 void Window::processInput() { processInputCallback_(window_.get()); }
