@@ -1,3 +1,6 @@
+// See if you can transform the camera class in such a way that it becomes a true fps camera where you cannot fly; you
+// can only look around while staying on the xz plane
+
 #include <filesystem>
 #include <iostream>
 #include <string>
@@ -34,11 +37,11 @@ int main()
     // TODO Having the path like this is quite fragile since it depends on the path from which the binary is run.
     // TODO It is much better if the shader paths are passed as command line arguments.
     const auto vertexShaderFilePath = std::filesystem::current_path().append(
-      "src/learn_opengl_tutorial/getting_started/7_4_camera_class/vertex_shader.vs");
+      "src/learn_opengl_tutorial/getting_started/7_5_camera_exercise_1/vertex_shader.vs");
     const auto vertexShader = Shader(ShaderType::Vertex, "", vertexShaderFilePath);
 
     const auto fragmentShaderFilePath = std::filesystem::current_path().append(
-      "src/learn_opengl_tutorial/getting_started/7_4_camera_class/fragment_shader.fs");
+      "src/learn_opengl_tutorial/getting_started/7_5_camera_exercise_1/fragment_shader.fs");
     const auto fragmentShader = Shader(ShaderType::Fragment, "", fragmentShaderFilePath);
 
     auto shaderProgram = Program();

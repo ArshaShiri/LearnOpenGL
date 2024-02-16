@@ -13,6 +13,12 @@ enum class CameraMovement
     Right
 };
 
+enum class CameraType
+{
+    Fly,
+    FPS
+};
+
 /**
  * @brief
  *
@@ -20,7 +26,7 @@ enum class CameraMovement
 class Camera
 {
   public:
-    Camera(const glm::vec3 position, const glm::vec3 frontDirection, const glm::vec3 up);
+    Camera(CameraType cameraType, const glm::vec3 position, const glm::vec3 frontDirection, const glm::vec3 up);
     void setCameraSpeed(float speed);
     void setMouseSensitivity(float sensitivity);
 
@@ -44,11 +50,12 @@ class Camera
     void setDefaultValues();
     void calculateCameraVectors();
 
+    CameraType cameraType_;
     glm::vec3 cameraPosition_;
     glm::vec3 cameraFrontDirection_;
+    glm::vec3 worldUp_;
     glm::vec3 cameraRight_;
     glm::vec3 cameraUp_;
-    glm::vec3 worldUp_;
 
     float movementSpeed_;
     float mouseSensitivity_;

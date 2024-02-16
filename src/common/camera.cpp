@@ -1,23 +1,13 @@
+#include <iostream>
+
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "camera.hpp"
 #include "window.hpp"
 
-
-// glm::vec3 Camera::cameraPosition_ = glm::vec3(0.0f, 0.0f, 0.0f);
-// glm::vec3 Camera::cameraFront_ = glm::vec3(0.0f, 0.0f, 0.0f);
-// glm::vec3 Camera::cameraUp_ = glm::vec3(0.0f, 0.0f, 0.0f);
-
-// float Camera::movementSpeed_ = 0.0f;
-// float Camera::yaw_ = 0.0f;
-// float Camera::pitch_ = 0.0f;
-// float Camera::mouseLastX_ = 0.0f;
-// float Camera::mouseLastY_ = 0.0f;
-// bool Camera::firstMouse_ = true;
-
-Camera::Camera(const glm::vec3 position, const glm::vec3 frontDirection, const glm::vec3 worldUp)
-  : cameraPosition_{ std::move(position) }, cameraFrontDirection_{ std::move(frontDirection) }, worldUp_{ std::move(
-                                                                                                  worldUp) }
+Camera::Camera(CameraType cameraType, const glm::vec3 position, const glm::vec3 frontDirection, const glm::vec3 worldUp)
+  : cameraType_{ cameraType }, cameraPosition_{ std::move(position) },
+    cameraFrontDirection_{ std::move(frontDirection) }, worldUp_{ std::move(worldUp) }
 {
     setDefaultValues();
     calculateCameraVectors();
@@ -30,13 +20,26 @@ void Camera::processCameraMovement(CameraMovement movement, float deltaTime)
 {
     float movementFraction = movementSpeed_ * deltaTime;
 
+    auto cameraFrontDirection = cameraFrontDirection_;
+
+
+    // if (cameraType_ == CameraType::FPS)
+    // {
+    //     std::cout << pitch_ << std::endl;
+    //     cameraFrontDirection = glm::vec3(0.0f, 0.0f, 0.0f);
+    //     cameraFrontDirection.x = static_cast<float>(cos(glm::radians(pitch_)) * cos(glm::radians(yaw_)));
+    //     cameraFrontDirection.y = 0;
+    //     cameraFrontDirection.z = static_cast<float>(cos(glm::radians(pitch_)) * sin(glm::radians(yaw_)));
+    //     // cameraFrontDirection = glm::normalize(cameraFrontDirection);
+    // }
+
     switch (movement)
     {
     case CameraMovement::Forward:
-        cameraPosition_ += cameraFrontDirection_ * movementFraction;
+        cameraPosition_ += cameraFrontDirection * movementFraction;
         break;
     case CameraMovement::Backward:
-        cameraPosition_ -= cameraFrontDirection_ * movementFraction;
+        cameraPosition_ -= cameraFrontDirection * movementFraction;
         break;
     case CameraMovement::Right:
         cameraPosition_ += cameraRight_ * movementFraction;
@@ -47,6 +50,9 @@ void Camera::processCameraMovement(CameraMovement movement, float deltaTime)
     default:
         break;
     }
+
+    if (cameraType_ == CameraType::FPS)
+        cameraPosition_.y = 0.0f;
 }
 
 void Camera::processCameraTurn(double mouseXOffset, double mouseYOffset)
