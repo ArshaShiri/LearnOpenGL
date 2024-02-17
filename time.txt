@@ -1,8 +1,7 @@
-build time:
+build time (All the projects under getting_started):
 time ./build.sh -c
 
-
-Before:
+Before changes:
 
 1)
     real    1m36,242s

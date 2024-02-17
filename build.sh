@@ -12,7 +12,6 @@
 
 progname="$(basename "$0")"
 
-# TODO Add more options to the build: Debug etc.
 printManual() {
     cat <<EOF
 usage: $progname
