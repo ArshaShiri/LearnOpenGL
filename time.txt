@@ -1,0 +1,25 @@
+build time:
+time ./build.sh -c
+
+
+Before:
+
+1)
+    real    1m36,242s
+    user    1m19,442s
+    sys     0m16,181s
+
+2)
+    real    1m35,548s
+    user    1m19,426s
+    sys     0m16,011s
+
+3)
+    real    1m35,275s
+    user    1m19,191s
+    sys     0m15,982s
+
+Adding Parallel flag:
+    real    0m17,234s
+    user    2m27,795s
+    sys     0m24,114s

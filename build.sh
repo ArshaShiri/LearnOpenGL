@@ -73,4 +73,4 @@ if [ $clean_build = true ]; then
     cmake -S . -DCMAKE_TOOLCHAIN_FILE=$build_path/conan_toolchain.cmake -B $build_path -DCMAKE_BUILD_TYPE=$build_type
 fi
 
-cmake --build $build_path
+cmake --build $build_path --parallel $(($(nproc) - 1))
