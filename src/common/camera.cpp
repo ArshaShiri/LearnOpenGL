@@ -82,6 +82,7 @@ void Camera::processCameraZoom(double yOffset)
 glm::mat4 Camera::getViewMatrix() const
 {
     return glm::lookAt(cameraPosition_, cameraPosition_ + cameraFrontDirection_, cameraUp_);
+    // return getManualLooAt();
 }
 
 float Camera::getCameraZoom() const { return cameraZoom_; }
@@ -117,4 +118,47 @@ void Camera::calculateCameraVectors()
     // more you look up or down which results in slower movement.
     cameraRight_ = glm::normalize(glm::cross(cameraFrontDirection_, worldUp_));
     cameraUp_ = glm::normalize(glm::cross(cameraRight_, cameraFrontDirection_));
+}
+
+glm::mat4 Camera::getManualLooAt() const
+{
+    // We are basically getting the coordinate of our object in the new coordinate system
+    // originated on the camera.
+    // Camera up: U
+    // Camera right: R
+    // Camera direction: D
+    // Vertex postion
+
+    // Ignoring translation:
+    // |Rx Ux Dx|   |x|   |vx|    |x| =          |Rx Ux Dx| * |vx|
+    // |Ry Uy Dy| * |y| = |vy| => |y| = transpose|Ry Uy Dy| * |vy|
+    // |Rz Uz Dz|   |z|   |vz|    |z| =          |Rz Uz Dz| * |vz|
+
+
+    // 1st the camera translation matrix which is the negative of the camera position
+    // In glm we access elements as mat[col][row] due to column-major layout
+    glm::mat4 cameraTranslation(1.0f);
+    cameraTranslation[3][0] = -cameraPosition_.x;
+    cameraTranslation[3][1] = -cameraPosition_.y;
+    cameraTranslation[3][2] = -cameraPosition_.z;
+
+    // We then need a rotation matrix that gives a vertex coordinate in our new coordinate system originated on the
+    // camera.
+    // The positive z direction is the opposite direction of the camera front direction
+    const auto zAxis = glm::normalize(-cameraFrontDirection_);
+    const auto xAxis = glm::normalize(glm::cross(glm::normalize(worldUp_), zAxis));
+    glm::vec3 yAxis = glm::cross(zAxis, xAxis);
+
+    glm::mat4 rotation(1.0f);
+    rotation[0][0] = xAxis.x;
+    rotation[1][0] = xAxis.y;
+    rotation[2][0] = xAxis.z;
+    rotation[0][1] = yAxis.x;
+    rotation[1][1] = yAxis.y;
+    rotation[2][1] = yAxis.z;
+    rotation[0][2] = zAxis.x;
+    rotation[1][2] = zAxis.y;
+    rotation[2][2] = zAxis.z;
+
+    return rotation * cameraTranslation;
 }

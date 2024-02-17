@@ -50,6 +50,15 @@ class Camera
     void setDefaultValues();
     void calculateCameraVectors();
 
+    /**
+     * @brief Manual look at matrix for learning purposes and exercise 7_2:
+     * Try to create your own LookAt function where you manually create a view matrix as discussed at the start of this
+     * chapter. Replace glm's LookAt function with your own implementation and see if it still acts the same
+     *
+     * @return glm::mat4
+     */
+    glm::mat4 getManualLooAt() const;
+
     CameraType cameraType_;
     glm::vec3 cameraPosition_;
     glm::vec3 cameraFrontDirection_;
